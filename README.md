@@ -6,7 +6,7 @@ python+flask+docker+sklearn
 
 git clone https://github.com/andBabaev/flask-docker-course.git
 
-cd flask-docker-course
+cd flask-docker-course/for_heroku
 
 heroku login
 
