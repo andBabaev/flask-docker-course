@@ -1,16 +1,16 @@
-from flask import (Flask, request,jsonify, 
-                    abort,redirect, url_for, 
-                    render_template, send_file)
-import numpy as np
-import sklearn
-from joblib import load
 import os
-import pandas as pd
 
-from flask_wtf import FlaskForm
-from wtforms import StringField
-from flask_wtf.file import FileField, FileRequired
+import numpy as np
 from werkzeug.utils import secure_filename
+
+import pandas as pd
+import sklearn
+from flask import (Flask, abort, flash, jsonify, redirect, render_template,
+                   request, send_file, url_for)
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired
+from joblib import load
+from wtforms import StringField
 from wtforms.validators import DataRequired
 
 app = Flask(__name__)
@@ -22,20 +22,21 @@ app.config.update(dict(
 ))
 
 
+
+
+@app.route('/')
+def hello_world():
+    #print('hi')
+    return "Hello, my best friend!"
+
+
 def predict_iris(param):
     param = [float(num) for num in param.split(',')]
     param = np.array(param).reshape((1, -1))
 
     predict = {'class': str(clf.predict(param)[0])}
     return predict
-
-
-@app.route('/')
-def hello_world():
-    print('hi')
-    return "Hello, my best friend!"
-
-
+    
 @app.route('/mean/<nums>')
 def mean_flask(nums):
     nums = [float(num) for num in nums.split(',')]
@@ -95,10 +96,6 @@ def submit():
                         as_attachment=True)
     return render_template('submit.html', form=form)
 
-import os
-from flask import Flask, flash, request, redirect, url_for
-from werkzeug.utils import secure_filename
-
 UPLOAD_FOLDER = '.'
 ALLOWED_EXTENSIONS = {'csv', 'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -134,7 +131,6 @@ def upload_file():
       <input type=submit value=Upload>
     </form>
     '''
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port='5000')
-
-
+    
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0')

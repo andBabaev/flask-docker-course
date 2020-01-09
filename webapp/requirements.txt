@@ -1,0 +1,10 @@
+gunicorn
+Flask
+Jinja2
+Werkzeug
+flask
+numpy
+scipy
+sklearn
+flask-wtf
+pandas

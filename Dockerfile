@@ -1,8 +1,14 @@
 FROM python:3.6-slim
 
-COPY . /root
-WORKDIR /root
 
-RUN pip install flask gunicorn numpy scipy sklearn flask-wtf pandas
+ADD ./webapp /root/webapp
+WORKDIR /root/webapp
 
-CMD gunicorn -b 0.0.0.0:5000 hello:app --reload 
+RUN pip install --no-cache-dir -r /root/webapp/requirements.txt
+
+ENV FLASK_APP=hello.py
+ENV FLASK_DEBUG=1
+ENV PYTHONUNBUFFERED=True
+
+CMD gunicorn -b 0.0.0.0:$PORT hello:app --reload
+#CMD gunicorn -b 0.0.0.0:5000 hello:app --reload 
